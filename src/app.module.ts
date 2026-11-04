@@ -1,23 +1,60 @@
-import { Module } from '@nestjs/common';
-import { createObserveModule } from '@nestjs/observe';
-import { AppController } from './app.controller.js';
-import { AppService } from './app.service.js';
-import { CatsModule } from './cats/cats.module.js';
+// 1 class -> 1 file
 
-export const { ObserveModule, ObserveInstrument } = createObserveModule();
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MessagesModule } from './messages/messages.module.js';
+import { CoffeesModule } from './coffees/coffees.module.js';
+import { CoffeeDetailsModule } from './coffeeDetails/coffeeDetails.module.js';
+import { Env, envSchema } from './config/env.schema.js';
+import { UsersModule } from './users/users.module.js';
+import { AuthModule } from './auth/auth.module.js';
 
 @Module({
   imports: [
-    // Distributed tracing, auto-correlated logs, request/job metrics, error
-    // telemetry, alarms, and more — out of the box. Sign up at https://observe.nestjs.com
-    ObserveModule.forRoot({
-      appKey: 'YOUR_APP_KEY',
-      appSecret: 'YOUR_APP_SECRET',
-      serviceId: 'project-name',
+    ConfigModule.forRoot({
+      envFilePath: process.env.ENV_FILE || '.env',
+      isGlobal: true,
+      validationSchema: envSchema,
     }),
-    CatsModule,
+    // TypeOrmModule.forRoot({
+    //   //mysql
+    //   type: 'mysql',
+    //   host: 'localhost',
+    //   port: 3307,
+    //   username: 'root',
+    //   password: 'rootpassword',
+    //   database: 'mydb',
+    //   //postgres
+    //   // type: 'postgres',
+    //   // port: 5432,
+    //   // username: 'postgres',
+    //   // password: 'secretpassword',
+    //   // database: 'coffee_db',
+
+    //   autoLoadEntities: true,
+    //   synchronize: true, // Don't use synchronize: true in production;
+
+    //   // logging: ['query'],
+    // }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService<Env, true>) => ({
+        type: 'mysql',
+        host: config.get('DB_HOST', { infer: true }),
+        port: config.get('DB_PORT', { infer: true }),
+        username: config.get('DB_USERNAME', { infer: true }),
+        password: config.get('DB_PASSWORD', { infer: true }),
+        database: config.get('DB_NAME', { infer: true }),
+        autoLoadEntities: true,
+        synchronize: config.get('NODE_ENV', { infer: true }) !== 'production',
+      }),
+    }),
+    MessagesModule,
+    CoffeesModule,
+    CoffeeDetailsModule,
+    UsersModule,
+    AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
