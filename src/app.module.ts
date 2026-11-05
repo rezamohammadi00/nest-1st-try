@@ -48,6 +48,7 @@ import { AuthModule } from './auth/auth.module.js';
         database: config.get('DB_NAME', { infer: true }),
         autoLoadEntities: true,
         synchronize: config.get('NODE_ENV', { infer: true }) !== 'production',
+        logging: false,
       }),
     }),
     MessagesModule,

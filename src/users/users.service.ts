@@ -4,8 +4,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity.js';
 import { Repository } from 'typeorm';
+import { User } from './entities/user.entity.js';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
 
@@ -21,9 +21,7 @@ export class UsersService {
     const exists = await this.usersRepository.existsBy({
       email: createUserDto.email,
     });
-    if (exists) {
-      throw new ConflictException();
-    }
+    if (exists) throw new ConflictException();
 
     const user = this.usersRepository.create(createUserDto);
     return this.usersRepository.save(user);
@@ -35,29 +33,27 @@ export class UsersService {
   }
 
   // READ (one)
-  async findOne(id: number) {
+  async findOneById(id: string) {
     const user = await this.usersRepository.findOneBy({ id });
-    if (!user) {
-      throw new NotFoundException();
-    }
+    if (!user) throw new NotFoundException();
+
     return user;
   }
 
   // UPDATE
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     const user = await this.usersRepository.preload({
       id,
       ...updateUserDto,
     });
-    if (!user) {
-      throw new NotFoundException();
-    }
+    if (!user) throw new NotFoundException();
+
     return this.usersRepository.save(user);
   }
 
   // DELETE
-  async remove(id: number) {
-    const user = await this.findOne(id); // throws 404 if missing
+  async removeById(id: string) {
+    const user = await this.findOneById(id); // throws 404 if missing
     return this.usersRepository.remove(user);
   }
 }
