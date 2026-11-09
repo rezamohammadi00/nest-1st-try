@@ -19,7 +19,7 @@ import { ApiConflictResponse, ApiOperation } from '@nestjs/swagger';
 import { CreateCoffeeDto } from './dto/create-coffee.dto.js';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto.js';
 import { CoffeesService } from './coffees.service.js';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto.js';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto.js';
 
 @Controller('coffees')
 export class CoffeesController {

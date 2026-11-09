@@ -12,7 +12,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { MessagesService } from './messages.service.js';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto.js';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto.js';
 import { UpdateMessageDto } from './dto/update-message.dto.js';
 import { CreateMessageDto } from './dto/create-message.dto.js';
 

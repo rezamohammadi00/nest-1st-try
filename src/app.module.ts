@@ -3,12 +3,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MessagesModule } from './messages/messages.module.js';
-import { CoffeesModule } from './coffees/coffees.module.js';
-import { CoffeeDetailsModule } from './coffeeDetails/coffeeDetails.module.js';
+import { MessagesModule } from './modules/messages/messages.module.js';
+import { CoffeesModule } from './modules/coffees/coffees.module.js';
+import { CoffeeDetailsModule } from './modules/coffeeDetails/coffeeDetails.module.js';
 import { Env, envSchema } from './config/env.schema.js';
-import { UsersModule } from './users/users.module.js';
-import { AuthModule } from './auth/auth.module.js';
+import { UsersModule } from './modules/users/users.module.js';
+import { AuthModule } from './modules/auth/auth.module.js';
 
 @Module({
   imports: [

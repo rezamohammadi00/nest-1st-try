@@ -11,4 +11,7 @@ export const envSchema = z.object({
   DB_USERNAME: z.string().min(1),
   DB_PASSWORD: z.string().min(1),
   DB_NAME: z.string().min(1),
+  //JWT
+  JWT_SECRET: z.string().min(32),
+  JWT_TTL: z.string().min(1),
 });

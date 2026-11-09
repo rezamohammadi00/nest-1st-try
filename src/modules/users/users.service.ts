@@ -21,7 +21,8 @@ export class UsersService {
     const exists = await this.usersRepository.existsBy({
       email: createUserDto.email,
     });
-    if (exists) throw new ConflictException();
+
+    if (exists) throw new ConflictException('Email already registered');
 
     const user = this.usersRepository.create(createUserDto);
     return this.usersRepository.save(user);
@@ -35,9 +36,22 @@ export class UsersService {
   // READ (one)
   async findOneById(id: string) {
     const user = await this.usersRepository.findOneBy({ id });
+
     if (!user) throw new NotFoundException();
 
     return user;
+  }
+
+  // READ BY EMAIL WITH PASS (one)
+  async findOneByEmailWithPassword(email: string) {
+    return this.usersRepository.findOne({
+      where: { email },
+      select: {
+        id: true,
+        email: true,
+        password: true,
+      },
+    });
   }
 
   // UPDATE

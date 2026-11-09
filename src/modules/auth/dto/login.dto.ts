@@ -1,8 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsStrongPassword } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class LoginDto {
   @IsEmail()
+  @Transform(({ value }) =>
+    // before validation
+    typeof value === 'string' ? value.trim().toLowerCase() : value,
+  )
   readonly email: string;
 
   @IsStrongPassword()

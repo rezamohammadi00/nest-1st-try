@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Message } from './message.entity.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { InsertResult, Repository } from 'typeorm';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto.js';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto.js';
 import { CreateMessageDto } from './dto/create-message.dto.js';
 
 @Injectable()

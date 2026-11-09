@@ -1,18 +1,22 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryFailedError, Repository } from 'typeorm';
 
 import { CreateCoffeeDetailDto } from './dto/create-coffeeDetail.dto.js';
 import { UpdateCoffeeDetailDto } from './dto/update-coffeeDetail.dto.js';
 import { CoffeeDetail } from './coffeeDetail.entity.js';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto.js';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto.js';
 
 @Injectable()
 export class CoffeeDetailsService {
   constructor(
     @InjectRepository(CoffeeDetail)
     private readonly coffeeDetailsRepository: Repository<CoffeeDetail>,
-  ) { }
+  ) {}
 
   findAll(paginationQueryDto: PaginationQueryDto): Promise<CoffeeDetail[]> {
     const { limit = 10, page = 1 } = paginationQueryDto;
@@ -56,14 +60,17 @@ export class CoffeeDetailsService {
     }
   }
 
-  async update(id: string, updateCoffeeDto: UpdateCoffeeDetailDto): Promise<CoffeeDetail> {
+  async update(
+    id: string,
+    updateCoffeeDto: UpdateCoffeeDetailDto,
+  ): Promise<CoffeeDetail> {
     const detail = await this.coffeeDetailsRepository.preload({
       id,
       title: updateCoffeeDto.title,
       description: updateCoffeeDto?.description,
       coffee: {
-        id: updateCoffeeDto.coffeeId
-      }
+        id: updateCoffeeDto.coffeeId,
+      },
     });
 
     if (!detail) {
@@ -74,7 +81,7 @@ export class CoffeeDetailsService {
   }
 
   async remove(id: string): Promise<void> {
-    const { affected } = await this.coffeeDetailsRepository.delete(id)
+    const { affected } = await this.coffeeDetailsRepository.delete(id);
     if (!affected) {
       throw new NotFoundException();
     }

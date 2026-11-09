@@ -15,7 +15,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { CreateCoffeeDetailDto } from './dto/create-coffeeDetail.dto.js';
 import { UpdateCoffeeDetailDto } from './dto/update-coffeeDetail.dto.js';
 import { CoffeeDetailsService } from './coffeeDetails.service.js';
-import { PaginationQueryDto } from '../common/dto/pagination-query.dto.js';
+import { PaginationQueryDto } from '../../common/dto/pagination-query.dto.js';
 
 @Controller('coffeeDetails')
 @ApiTags('Coffee Details')
