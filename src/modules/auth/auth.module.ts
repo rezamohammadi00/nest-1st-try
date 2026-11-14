@@ -7,6 +7,7 @@ import { JwtAuth } from './jwt-auth.provider.js';
 import { UsersModule } from '../users/users.module.js';
 import { Env } from '../../config/env.schema.js';
 
+//! cookie-session : need to read the doc
 @Module({
   imports: [
     UsersModule,

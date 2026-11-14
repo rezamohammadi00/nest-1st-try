@@ -26,7 +26,6 @@ export class AuthController {
     const tokens = await this.authService.login(loginDto);
     const { password: _, ...user } = loginDto;
 
-    console.log();
     return {
       user,
       tokens,

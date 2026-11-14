@@ -1,18 +1,6 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15-alpine
-    container_name: postgres_nest_container
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: secretpassword
-      POSTGRES_DB: coffee_db
-    ports:
-      - '5432:5432'
-    volumes:
-      - pgdata:/var/lib/postgresql/data
   mysql:
     image: mysql:8.4
     container_name: mysql
@@ -25,5 +13,4 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 volumes:
-  pgdata:
   mysql_data:
